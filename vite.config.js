@@ -13,7 +13,9 @@ export default defineConfig({
       resolvers: [ElementPlusResolver()],
     }),
     Components({
-      resolvers: [ElementPlusResolver()],
+      resolvers: [ElementPlusResolver({
+        importStyle: false // 禁用自動樣式導入
+      })],
     }),
     createSvgIconsPlugin({
       iconDirs: [path.resolve(process.cwd(), 'src/icons/svg')],
