@@ -25,7 +25,17 @@ import { useAppStore } from '@/stores/app'
 import { useSettingsStore } from '@/stores/settings'
 import Logo from './Logo.vue'
 import SidebarItem from './SidebarItem.vue'
-import variables from '@/styles/variables.scss'
+// Import SCSS variables through the :export functionality
+const variables = {
+  menuText: '#bfcbd9',
+  menuActiveText: '#409EFF',
+  subMenuActiveText: '#f4f4f5',
+  menuBg: '#304156',
+  menuHover: '#263445',
+  subMenuBg: '#1f2d3d',
+  subMenuHover: '#001528',
+  sideBarWidth: '210px'
+}
 
 export default {
   components: { SidebarItem, Logo },
