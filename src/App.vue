@@ -4,8 +4,6 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'App'
-}
+<script setup>
+// Vue 3 Composition API
 </script>
