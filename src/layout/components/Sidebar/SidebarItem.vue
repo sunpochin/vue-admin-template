@@ -26,7 +26,6 @@
 
 <script>
 import path from 'path'
-import { ElMenuItem, ElSubmenu } from 'element-plus'
 import { isExternal } from '@/utils/validate'
 import Item from './Item.vue'
 import AppLink from './Link.vue'
@@ -34,7 +33,7 @@ import FixiOSBug from './FixiOSBug.js'
 
 export default {
   name: 'SidebarItem',
-  components: { Item, AppLink, ElMenuItem, ElSubmenu },
+  components: { Item, AppLink },
   mixins: [FixiOSBug],
   props: {
     // route object

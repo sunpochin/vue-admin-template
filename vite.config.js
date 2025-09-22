@@ -3,7 +3,7 @@ import vue from '@vitejs/plugin-vue'
 import path from 'path'
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 import AutoImport from 'unplugin-auto-import/vite'
-import Components from 'unplugin-vue-components/vite'
+// import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 
 export default defineConfig({
@@ -12,11 +12,12 @@ export default defineConfig({
     AutoImport({
       resolvers: [ElementPlusResolver()],
     }),
-    Components({
-      resolvers: [ElementPlusResolver({
-        importStyle: false // 禁用自動樣式導入
-      })],
-    }),
+    // Components({
+    //   resolvers: [ElementPlusResolver({
+    //     importStyle: false, // 禁用自動樣式導入
+    //     version: '2.4.4' // 明確指定版本
+    //   })],
+    // }),
     createSvgIconsPlugin({
       iconDirs: [path.resolve(process.cwd(), 'src/icons/svg')],
       symbolId: 'icon-[dir]-[name]',
