@@ -12,11 +12,19 @@
 </template>
 
 <script>
+/**
+ * Layout Component - Main application layout wrapper
+ *
+ * Migrated from Vue 2 to Vue 3:
+ * - Replaced Vuex with Pinia stores
+ * - Converted from Options API with mixins to Composition API
+ * - Replaced mixin usage with composable functions
+ */
 import { computed } from 'vue'
 import { useAppStore } from '@/stores/app'
 import { useSettingsStore } from '@/stores/settings'
+import { useResizeHandler } from './mixin/ResizeHandler'
 import { Navbar, Sidebar, AppMain } from './components'
-import ResizeMixin from './mixin/ResizeHandler'
 
 export default {
   name: 'Layout',
@@ -25,11 +33,14 @@ export default {
     Sidebar,
     AppMain
   },
-  mixins: [ResizeMixin],
   setup() {
     const appStore = useAppStore()
     const settingsStore = useSettingsStore()
 
+    // Use resize handler composable (replaces Vue 2 mixin)
+    useResizeHandler()
+
+    // Computed properties using Pinia stores (replaces Vuex mapGetters)
     const sidebar = computed(() => appStore.sidebar)
     const device = computed(() => appStore.device)
     const fixedHeader = computed(() => settingsStore.fixedHeader)
@@ -40,6 +51,7 @@ export default {
       mobile: device.value === 'mobile'
     }))
 
+    // Event handlers using Pinia actions (replaces Vuex dispatch)
     const handleClickOutside = () => {
       appStore.closeSideBar({ withoutAnimation: false })
     }
