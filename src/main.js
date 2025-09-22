@@ -14,7 +14,9 @@ import {
   ElInput,
   ElCheckbox,
   ElTooltip,
-  ElAlert
+  ElAlert,
+  ElBreadcrumb,
+  ElBreadcrumbItem
 } from 'element-plus'
 import 'element-plus/dist/index.css'
 import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
@@ -56,7 +58,9 @@ const components = [
   ElInput,
   ElCheckbox,
   ElTooltip,
-  ElAlert
+  ElAlert,
+  ElBreadcrumb,
+  ElBreadcrumbItem
 ]
 
 // Register components with both PascalCase and kebab-case names
