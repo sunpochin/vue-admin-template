@@ -23,8 +23,8 @@ import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useAppStore } from '@/stores/app'
 import { useSettingsStore } from '@/stores/settings'
-import Logo from './Logo'
-import SidebarItem from './SidebarItem'
+import Logo from './Logo.vue'
+import SidebarItem from './SidebarItem.vue'
 import variables from '@/styles/variables.scss'
 
 export default {
