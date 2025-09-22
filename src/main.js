@@ -19,7 +19,11 @@ import {
   ElBreadcrumbItem,
   ElDropdown,
   ElDropdownItem,
-  ElDropdownMenu
+  ElDropdownMenu,
+  ElTable,
+  ElTableColumn,
+  ElTag,
+  ElLoading
 } from 'element-plus'
 import 'element-plus/dist/index.css'
 import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
@@ -66,7 +70,10 @@ const components = [
   ElBreadcrumbItem,
   ElDropdown,
   ElDropdownItem,
-  ElDropdownMenu
+  ElDropdownMenu,
+  ElTable,
+  ElTableColumn,
+  ElTag
 ]
 
 // Register each component
@@ -76,6 +83,9 @@ components.forEach(component => {
 
 // Ensure kebab-case resolution for el-submenu
 app.component('el-submenu', ElSubMenu)
+
+// Register Element Plus directive
+app.use(ElLoading)
 
 // Register global components
 app.component('svg-icon', SvgIcon)
