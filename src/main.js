@@ -3,7 +3,18 @@ import { createPinia } from 'pinia'
 
 import 'normalize.css/normalize.css' // A modern alternative to CSS resets
 
-import ElementPlus from 'element-plus'
+import {
+  ElMenu,
+  ElMenuItem,
+  ElSubMenu,
+  ElScrollbar,
+  ElButton,
+  ElForm,
+  ElFormItem,
+  ElInput,
+  ElCheckbox,
+  ElTooltip
+} from 'element-plus'
 import 'element-plus/dist/index.css'
 import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
 
@@ -31,9 +42,28 @@ const pinia = createPinia()
 
 app.use(pinia)
 app.use(router)
-app.use(ElementPlus, {
-  locale: zhCn,
+
+// Register Element Plus components individually
+const components = [
+  ElMenu,
+  ElMenuItem,
+  ElSubMenu,
+  ElScrollbar,
+  ElButton,
+  ElForm,
+  ElFormItem,
+  ElInput,
+  ElCheckbox,
+  ElTooltip
+]
+
+// Register components with both PascalCase and kebab-case names
+components.forEach(component => {
+  app.component(component.name, component)
 })
+
+// Explicitly register el-submenu for kebab-case usage
+app.component('el-submenu', ElSubMenu)
 
 // Register global components
 app.component('svg-icon', SvgIcon)
