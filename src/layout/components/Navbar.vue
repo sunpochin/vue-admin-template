@@ -32,7 +32,10 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { computed } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
+import { useAppStore } from '@/stores/app'
+import { useUserStore } from '@/stores/user'
 import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
 
@@ -41,19 +44,29 @@ export default {
     Breadcrumb,
     Hamburger
   },
-  computed: {
-    ...mapGetters([
-      'sidebar',
-      'avatar'
-    ])
-  },
-  methods: {
-    toggleSideBar() {
-      this.$store.dispatch('app/toggleSideBar')
-    },
-    async logout() {
-      await this.$store.dispatch('user/logout')
-      this.$router.push(`/login?redirect=${this.$route.fullPath}`)
+  setup() {
+    const router = useRouter()
+    const route = useRoute()
+    const appStore = useAppStore()
+    const userStore = useUserStore()
+
+    const sidebar = computed(() => appStore.sidebar)
+    const avatar = computed(() => userStore.avatar)
+
+    const toggleSideBar = () => {
+      appStore.toggleSideBar()
+    }
+
+    const logout = async () => {
+      await userStore.logout()
+      router.push(`/login?redirect=${route.fullPath}`)
+    }
+
+    return {
+      sidebar,
+      avatar,
+      toggleSideBar,
+      logout
     }
   }
 }

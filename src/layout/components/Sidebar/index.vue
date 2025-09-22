@@ -19,37 +19,42 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { computed } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { useAppStore } from '@/stores/app'
+import { useSettingsStore } from '@/stores/settings'
 import Logo from './Logo'
 import SidebarItem from './SidebarItem'
 import variables from '@/styles/variables.scss'
 
 export default {
   components: { SidebarItem, Logo },
-  computed: {
-    ...mapGetters([
-      'sidebar'
-    ]),
-    routes() {
-      return this.$router.options.routes
-    },
-    activeMenu() {
-      const route = this.$route
+  setup() {
+    const route = useRoute()
+    const router = useRouter()
+    const appStore = useAppStore()
+    const settingsStore = useSettingsStore()
+
+    const sidebar = computed(() => appStore.sidebar)
+    const routes = computed(() => router.options.routes)
+    const activeMenu = computed(() => {
       const { meta, path } = route
       // if set path, the sidebar will highlight the path you set
       if (meta.activeMenu) {
         return meta.activeMenu
       }
       return path
-    },
-    showLogo() {
-      return this.$store.state.settings.sidebarLogo
-    },
-    variables() {
-      return variables
-    },
-    isCollapse() {
-      return !this.sidebar.opened
+    })
+    const showLogo = computed(() => settingsStore.sidebarLogo)
+    const isCollapse = computed(() => !sidebar.value.opened)
+
+    return {
+      sidebar,
+      routes,
+      activeMenu,
+      showLogo,
+      variables,
+      isCollapse
     }
   }
 }
