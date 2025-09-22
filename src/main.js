@@ -23,7 +23,8 @@ import {
   ElTable,
   ElTableColumn,
   ElTag,
-  ElLoading
+  ElLoading,
+  ElMessage
 } from 'element-plus'
 import 'element-plus/dist/index.css'
 import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
@@ -86,6 +87,9 @@ app.component('el-submenu', ElSubMenu)
 
 // Register Element Plus directive
 app.use(ElLoading)
+
+// Register Element Plus services globally
+app.config.globalProperties.$message = ElMessage
 
 // Register global components
 app.component('svg-icon', SvgIcon)
