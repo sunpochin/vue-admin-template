@@ -16,7 +16,10 @@ import {
   ElTooltip,
   ElAlert,
   ElBreadcrumb,
-  ElBreadcrumbItem
+  ElBreadcrumbItem,
+  ElDropdown,
+  ElDropdownItem,
+  ElDropdownMenu
 } from 'element-plus'
 import 'element-plus/dist/index.css'
 import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
@@ -46,7 +49,7 @@ const pinia = createPinia()
 app.use(pinia)
 app.use(router)
 
-// Register Element Plus components individually
+// Register Element Plus components individually for better tree-shaking
 const components = [
   ElMenu,
   ElMenuItem,
@@ -60,15 +63,18 @@ const components = [
   ElTooltip,
   ElAlert,
   ElBreadcrumb,
-  ElBreadcrumbItem
+  ElBreadcrumbItem,
+  ElDropdown,
+  ElDropdownItem,
+  ElDropdownMenu
 ]
 
-// Register components with both PascalCase and kebab-case names
+// Register each component
 components.forEach(component => {
   app.component(component.name, component)
 })
 
-// Explicitly register el-submenu for kebab-case usage
+// Ensure kebab-case resolution for el-submenu
 app.component('el-submenu', ElSubMenu)
 
 // Register global components
