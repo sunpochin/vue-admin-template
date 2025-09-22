@@ -1,6 +1,6 @@
 <template>
   <div class="login-container">
-    <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
+    <el-form ref="loginFormRef" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
 
       <div class="title-container">
         <h3 class="title">Login Form</h3>
@@ -27,7 +27,7 @@
         </span>
         <el-input
           :key="passwordType"
-          ref="password"
+          ref="passwordRef"
           v-model="loginForm.password"
           :type="passwordType"
           placeholder="Password"
@@ -53,11 +53,25 @@
 </template>
 
 <script>
+/**
+ * Login Component - User authentication interface
+ *
+ * Migrated from Vue 2 to Vue 3:
+ * - Replaced Vuex with Pinia stores
+ * - Converted from Options API to Composition API
+ */
+import { ref, reactive, nextTick } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
+import { useUserStore } from '@/stores/user'
 import { validUsername } from '@/utils/validate'
 
 export default {
   name: 'Login',
-  data() {
+  setup() {
+    const router = useRouter()
+    const route = useRoute()
+    const userStore = useUserStore()
+
     const validateUsername = (rule, value, callback) => {
       if (!validUsername(value)) {
         callback(new Error('Please enter the correct user name'))
@@ -72,54 +86,65 @@ export default {
         callback()
       }
     }
-    return {
-      loginForm: {
-        username: 'admin',
-        password: '111111'
-      },
-      loginRules: {
-        username: [{ required: true, trigger: 'blur', validator: validateUsername }],
-        password: [{ required: true, trigger: 'blur', validator: validatePassword }]
-      },
-      loading: false,
-      passwordType: 'password',
-      redirect: undefined
+
+    const loginFormData = reactive({
+      username: 'admin',
+      password: '111111'
+    })
+
+    const loginRules = {
+      username: [{ required: true, trigger: 'blur', validator: validateUsername }],
+      password: [{ required: true, trigger: 'blur', validator: validatePassword }]
     }
-  },
-  watch: {
-    $route: {
-      handler: function(route) {
-        this.redirect = route.query && route.query.redirect
-      },
-      immediate: true
-    }
-  },
-  methods: {
-    showPwd() {
-      if (this.passwordType === 'password') {
-        this.passwordType = ''
+
+    const loading = ref(false)
+    const passwordType = ref('password')
+    const redirect = ref(route.query?.redirect)
+
+    // Refs for form elements
+    const loginFormRef = ref(null)
+    const passwordRef = ref(null)
+
+    // Methods
+    const showPwd = () => {
+      if (passwordType.value === 'password') {
+        passwordType.value = ''
       } else {
-        this.passwordType = 'password'
+        passwordType.value = 'password'
       }
-      this.$nextTick(() => {
-        this.$refs.password.focus()
+      nextTick(() => {
+        passwordRef.value.focus()
       })
-    },
-    handleLogin() {
-      this.$refs.loginForm.validate(valid => {
+    }
+
+    const handleLogin = () => {
+      loginFormRef.value.validate(async (valid) => {
         if (valid) {
-          this.loading = true
-          this.$store.dispatch('user/login', this.loginForm).then(() => {
-            this.$router.push({ path: this.redirect || '/' })
-            this.loading = false
-          }).catch(() => {
-            this.loading = false
-          })
+          loading.value = true
+          try {
+            await userStore.login(loginFormData)
+            router.push({ path: redirect.value || '/' })
+          } catch (error) {
+            console.error('Login error:', error)
+          } finally {
+            loading.value = false
+          }
         } else {
           console.log('error submit!!')
           return false
         }
       })
+    }
+
+    return {
+      loginForm: loginFormData,
+      loginRules,
+      loading,
+      passwordType,
+      showPwd,
+      handleLogin,
+      loginFormRef,
+      passwordRef
     }
   }
 }

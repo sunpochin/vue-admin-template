@@ -1,8 +1,7 @@
-const Mock = require('mockjs')
-const { param2Obj } = require('./utils')
-
-const user = require('./user')
-const table = require('./table')
+import Mock from 'mockjs'
+import { param2Obj } from './utils.js'
+import user from './user.js'
+import table from './table.js'
 
 const mocks = [
   ...user,
@@ -50,8 +49,5 @@ function mockXHR() {
   }
 }
 
-module.exports = {
-  mocks,
-  mockXHR
-}
+export { mocks, mockXHR }
 

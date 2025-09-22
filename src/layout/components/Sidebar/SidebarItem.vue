@@ -9,7 +9,7 @@
     </template>
 
     <el-submenu v-else ref="subMenu" :index="resolvePath(item.path)" popper-append-to-body>
-      <template slot="title">
+      <template #title>
         <item v-if="item.meta" :icon="item.meta && item.meta.icon" :title="item.meta.title" />
       </template>
       <sidebar-item
@@ -25,11 +25,32 @@
 </template>
 
 <script>
-import path from 'path'
 import { isExternal } from '@/utils/validate'
 import Item from './Item.vue'
 import AppLink from './Link.vue'
 import FixiOSBug from './FixiOSBug.js'
+
+// Browser-compatible path resolution utility
+function resolvePath(basePath, relativePath) {
+  if (!basePath) return relativePath
+  if (!relativePath) return basePath
+
+  // Handle absolute paths
+  if (relativePath.startsWith('/')) {
+    return relativePath
+  }
+
+  // Handle external URLs
+  if (isExternal(relativePath)) {
+    return relativePath
+  }
+
+  // Combine paths
+  const base = basePath.endsWith('/') ? basePath.slice(0, -1) : basePath
+  const relative = relativePath.startsWith('/') ? relativePath : '/' + relativePath
+
+  return base + relative
+}
 
 export default {
   name: 'SidebarItem',
@@ -88,7 +109,7 @@ export default {
       if (isExternal(this.basePath)) {
         return this.basePath
       }
-      return path.resolve(this.basePath, routePath)
+      return resolvePath(this.basePath, routePath)
     }
   }
 }

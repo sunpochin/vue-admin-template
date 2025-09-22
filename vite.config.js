@@ -12,10 +12,12 @@ export default defineConfig({
     AutoImport({
       resolvers: [ElementPlusResolver()],
     }),
+    // Disable Element Plus auto-import - using global registration instead
     // Components({
     //   resolvers: [ElementPlusResolver({
     //     importStyle: false, // 禁用自動樣式導入
-    //     version: '2.4.4' // 明確指定版本
+    //     ssr: false, // 確保客戶端導入
+    //     resolveIcons: false // 禁用圖標解析
     //   })],
     // }),
     createSvgIconsPlugin({
@@ -37,13 +39,14 @@ export default defineConfig({
   },
   server: {
     port: 9528,
-    open: true,
-    proxy: {
-      '/dev-api': {
-        target: 'http://localhost:3000',
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/dev-api/, '')
-      }
-    }
+    open: true
+    // Proxy disabled - using MockJS for API responses
+    // proxy: {
+    //   '/dev-api': {
+    //     target: 'http://localhost:3000',
+    //     changeOrigin: true,
+    //     rewrite: (path) => path.replace(/^\/dev-api/, '')
+    //   }
+    // }
   }
 })
