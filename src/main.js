@@ -23,6 +23,7 @@ import {
   ElTable,
   ElTableColumn,
   ElTag,
+  ElTree,
   ElLoading,
   ElMessage
 } from 'element-plus'
@@ -74,7 +75,8 @@ const components = [
   ElDropdownMenu,
   ElTable,
   ElTableColumn,
-  ElTag
+  ElTag,
+  ElTree
 ]
 
 // Register each component
