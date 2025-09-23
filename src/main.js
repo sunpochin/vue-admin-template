@@ -24,6 +24,15 @@ import {
   ElTableColumn,
   ElTag,
   ElTree,
+  ElSelect,
+  ElOption,
+  ElCol,
+  ElDatePicker,
+  ElTimePicker,
+  ElSwitch,
+  ElCheckboxGroup,
+  ElRadioGroup,
+  ElRadio,
   ElLoading,
   ElMessage
 } from 'element-plus'
@@ -76,7 +85,16 @@ const components = [
   ElTable,
   ElTableColumn,
   ElTag,
-  ElTree
+  ElTree,
+  ElSelect,
+  ElOption,
+  ElCol,
+  ElDatePicker,
+  ElTimePicker,
+  ElSwitch,
+  ElCheckboxGroup,
+  ElRadioGroup,
+  ElRadio
 ]
 
 // Register each component
