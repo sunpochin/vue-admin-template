@@ -14,14 +14,14 @@ import { ref, watch, onBeforeMount } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { compile } from 'path-to-regexp'
 
-// 獲取當前的路由和路由器實例
+// Get the current route and router instance
 const route = useRoute()
 const router = useRouter()
 
-// 麵包屑導航列表
+// Breadcrumb navigation list
 const levelList = ref([])
 
-// 判斷是否為儀表板路由
+// Check if it is a dashboard route
 const isDashboard = (r) => {
   const name = r.name
   if (!name) {
@@ -30,29 +30,29 @@ const isDashboard = (r) => {
   return name.trim().toLocaleLowerCase() === 'Dashboard'.toLocaleLowerCase()
 }
 
-// 獲取麵包屑數據
+// Get breadcrumb data
 const getBreadcrumb = () => {
-  // 過濾出包含 meta.title 的路由
+  // Filter routes that contain meta.title
   let matched = route.matched.filter(item => item.meta && item.meta.title)
   const first = matched[0]
 
-  // 如果第一個不是儀表板，則手動添加
+  // Manually add dashboard if it's not the first one
   if (!isDashboard(first)) {
     matched = [{ path: '/dashboard', meta: { title: 'Dashboard' }}].concat(matched)
   }
 
-  // 過濾掉不需要在麵包屑中顯示的項目
+  // Filter out items that don't need to be displayed in the breadcrumb
   levelList.value = matched.filter(item => item.meta && item.meta.title && item.meta.breadcrumb !== false)
 }
 
-// 編譯帶有參數的路徑
+// Compile path with parameters
 const pathCompile = (path) => {
   const { params } = route
   const toPath = compile(path)
   return toPath(params)
 }
 
-// 處理連結點擊
+// Handle link click
 const handleLink = (item) => {
   const { redirect, path } = item
   if (redirect) {
@@ -62,7 +62,7 @@ const handleLink = (item) => {
   router.push(pathCompile(path))
 }
 
-// 監聽路由變化
+// Watch for route changes
 watch(
   () => route.path,
   () => {
@@ -70,7 +70,7 @@ watch(
   }
 )
 
-// 在組件掛載前獲取初始麵包屑
+// Get initial breadcrumb before component mount
 onBeforeMount(() => {
   getBreadcrumb()
 })
