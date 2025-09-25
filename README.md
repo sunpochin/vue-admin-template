@@ -26,15 +26,6 @@ English | [简体中文](./README-zh.md)
 - Need TypeScript support
 - Want latest Vue ecosystem features
 
-<p align="center">
-  <b>SPONSORED BY</b>
-</p>
-<p align="center">
-   <a href="https://finclip.com?from=vue_element" title="FinClip" target="_blank">
-      <img height="200px" src="https://gitee.com/panjiachen/gitee-cdn/raw/master/vue%E8%B5%9E%E5%8A%A9.png" title="FinClip">
-   </a>
-</p>
-
 ## 🚀 Build Setup
 
 ### Vue 2 Version (v4.x)
